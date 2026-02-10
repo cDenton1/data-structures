@@ -1,5 +1,7 @@
 # Data Structures
 
-Repository for storing code related to projects and assignments, find the related subdirectory for each one.
+## c-quicksort-and-main
 
-EDIT: This is a test edit. - Iyassu
+Updated employee file, now split into java and employee
+
+Added quicksort algorithm
