@@ -1,10 +1,10 @@
 public class QuickSort {
 
-	public static <T extends Employee> void sort(T[] array) {
+	public static <T extends Comparable<T>> void sort(T[] array) {
 		quickSort(array, 0, array.length - 1);
 	}
 	
-	private static <T extends Employee> void quickSort(T[] array, int low, int high) {
+	private static <T extends Comparable<T>> void quickSort(T[] array, int low, int high) {
 		if (low < high) {
 			int p = partition(array, low, high);
 			quickSort(array, low, p -1);
@@ -12,11 +12,11 @@ public class QuickSort {
 		}
 	}
 	
-	private static <T extends Employee> int partition(T[] array, int low, int high) {
-		String pivot = array[high].getName();
+	private static <T extends Comparable<T>> int partition(T[] array, int low, int high) {
+		T pivot = array[high];
 		int i = low - 1;
 		for (int j = low; j < high; j++) {
-			if (array[j].getName().compareToIgnoreCase(pivot) <= 0) {
+			if (array[j].compareTo(pivot) <= 0) {
 				i++;
 				swap(array, i, j);
 			}

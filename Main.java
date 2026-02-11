@@ -1,16 +1,25 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 public class Main {
 
     public static void main(String[] args) {
+        
+        // JOptionPane.showMessageDialog(null, "Employee Data Searching and Searching Program! \n Press OK to start");
 
         Employee[] employees = new Employee[1000];
         int index = 0;
+
+        // String filePath = JOptionPane.showInputDialog("Enter the full path of employee data file");
+		
+		// for easier testing
+		String filePath = "employeesWithoutRepeat.txt";
 		
 		// Scanner object to read the file.
-        try (Scanner fileScanner = new Scanner(new File("employeesWithoutRepeat.txt"))) {
+        try (Scanner fileScanner = new Scanner(new File(filePath))) {
+
+            System.out.println("Reading employee data from " + filePath);
 
             while (fileScanner.hasNextLine() && index < employees.length) {
                 String line = fileScanner.nextLine();
@@ -30,8 +39,8 @@ public class Main {
                 );
             }
 
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found: " + e.getMessage()); // Prints an error message if the file is not found.
+        } catch (Exception e) {
+            System.out.println("File not found, please try again"); // Prints an error message if the file is not found.
             return; // Exit the program if the file is not found.
         }
 
@@ -42,7 +51,24 @@ public class Main {
         SelectionSort.selectionSort(employees);
         long sEnd = System.currentTimeMillis();
 
+        System.out.println(" ");
+
+        System.out.println("The performance of our sorting algorithms");
+        
+        System.out.println("###########################################");
         System.out.println("SelectionSort time: " + (sEnd - sStart) + " ms");
+        
+        String sortedemployeeBySalary = "sortedemployeeBySalary.csv";
+
+        try (java.io.PrintWriter writer = new java.io.PrintWriter(new File(sortedemployeeBySalary))) {
+            for (int i = 0; i < index; i++) {
+    	        writer.println(employees[i].toString());
+    	    }
+    	    // System.out.println("Data successfully saved to " + sortedemployeeByName);
+    	} 
+        catch (Exception e) {
+            // System.out.println("An error occurred: " + e.getMessage());
+        }
         
         // call quicksort
         long qStart = System.currentTimeMillis();
@@ -50,10 +76,27 @@ public class Main {
         long qEnd = System.currentTimeMillis();
 
         System.out.println("QuickSort time: " + (qEnd - qStart) + " ms");
+        System.out.println("###########################################");
+
+        System.out.println(" ");
 
         // Print first few to verify
-        for (int i = 0; i < Math.min(index, 10); i++) {
-            System.out.println(employees[i]);
+        //for (int i = 0; i < Math.min(index, 10); i++) {
+            //System.out.println(employees[i]);
+        //}
+
+        String sortedemployeeByName = "sortedemployeeByName.csv";
+		
+		System.out.println("Data successfully saved to " + sortedemployeeBySalary);
+		
+        try (java.io.PrintWriter writer = new java.io.PrintWriter(new File(sortedemployeeByName))) {
+            for (int i = 0; i < index; i++) {
+    	        writer.println(employees[i].toString());
+    	    }
+    	    System.out.println("Data successfully saved to " + sortedemployeeByName);
+    	} 
+        catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
         }
     }
-}
+}

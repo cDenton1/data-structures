@@ -34,7 +34,8 @@ public class Employee implements Comparable<Employee> {
 	// Used by SelectionSort (salary-based)
 	@Override
 	public int compareTo(Employee other) {
-		return Double.compare(this.calcHourlySalary(), other.calcHourlySalary());
+		// return Double.compare(this.calcHourlySalary(), other.calcHourlySalary());
+		return this.name.compareToIgnoreCase(other.name);
 	}
 
 	@Override
