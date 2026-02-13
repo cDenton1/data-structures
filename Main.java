@@ -1,4 +1,3 @@
-// Latest version of Main.java
 import java.io.File;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
@@ -69,7 +68,7 @@ public class Main {
 			System.out.println("An error occurred: " + e.getMessage());
 		}
 		
-		// call quicksort
+		// Call quicksort
 		long qStart = System.currentTimeMillis();
 		QuickSort.sort(employees);
 		long qEnd = System.currentTimeMillis();
@@ -89,7 +88,8 @@ public class Main {
 		}
 		
 		System.out.println("###########################################");
-		
+
+		// Used in tandem with binary search to find employee ID.
 		Scanner input = new Scanner(System.in);
 		System.out.print("Enter the name of the employee to search: ");
 		String searchName = input.nextLine();
@@ -102,3 +102,4 @@ public class Main {
 		}
 	}
 }
+
