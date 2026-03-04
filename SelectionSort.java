@@ -7,11 +7,11 @@ public class SelectionSort {
     public static <T> void selectionSort(T[] array, Comparator<T> comparator) {
         
         // Begins with 0 as a starting point to work off of all the upcoming numbers.
-        for(int i = 0; i < array.length - 1; i++) { // First index of the unsorted section.
-            int min = i; // Until a larger number is found, "i" is assumed to be the smallest.
+        for(int i = 0; i < array.length - 1; i++) { // First index of the unsorted section. The point of i < array.length - 1 is to sort, so we minus by 1 because if everything else is sorted then we don't need to sort the last index.
+            int min = i; // Until a smaller number is found, "i" is assumed to be the smallest.
              
             // The following inner loop is to scan the rest of the array and see if there's anything smaller than the current minimum.
-            for(int j = i + 1; j < array.length; j++) {
+            for(int j = i + 1; j < array.length; j++) { // j < array.length doesn't have the minus 1 because it needs to scan for every possible value that could be the smallest.
                 if (comparator.compare(array[j], array[min]) < 0) {
                     min = j;
                 }
