@@ -8,30 +8,45 @@ public class FCFSAlgorithm {
         It's assumed the other classes will handle the variables. */
 
         int numberOfProcesses;
-        int arrivalTimes;
-        int burstTimes;
+        int arrivalTime;
+        int burstTime;
         int turnaroundTime;
         int waitingTime;
         int averageTurnaroundTime;
         int averageWaitingTime;
         int completionTime;
+        
+        int currentTime = 0;
 
         Scanner input = new Scanner(System.in);
         System.out.print("Enter the number of processes: ");
         numberOfProcesses = input.nextInt();
+        // call process and queue classes
  
         for (int i = 0; i <= numberOfProcesses; i++) {
 
             // Inputting the numbers
             System.out.print("\nEnter arrival time for process " + "P" + (i) + ": ");
-            arrivalTimes = input.nextInt();
+            arrivalTime = input.nextInt();
             
             System.out.print("Enter burst time for process " + "P" + (i) + ": ");
-            burstTimes = input.nextInt();
+            burstTime = input.nextInt();
+            
         }
 
         // Actual calculations
-        
+        // assuming this needs to start from arrival time 0 and work through to the last
+        for (int i = 0; i <= numberOfProcesses; i++) {
+        	if (currentTime < arrivalTime) {
+            	currentTime = arrivalTime
+            }
+            
+            completionTime = currentTime + burstTime
+            turnaroundTime = completionTime - arrivalTime
+        	waitingTime = turnaroundTime - burstTime
+            
+            currentTime += burstTime;
+        }
         
         // Display message - don't worry about it for now
         /*
