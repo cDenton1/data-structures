@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 
@@ -6,38 +7,41 @@ public class FCFSAlgorithm {
         
         JOptionPane.showMessageDialog(null, "FCFS (First-Come-First-Serve) Scheduling Simulation! \nPress OK to start", "Welcome to", JOptionPane.INFORMATION_MESSAGE);
         
-        /* The following code is just to get the main logic out of the way.
-        It's assumed the other classes will handle the variables. */
-        
-        int currentTime = 0;
-        int numberOfProcesses = 0;
+        int currentTime = 0; // Declaring current time as 0 as to allow for a starting point.
+        int numberOfProcesses = 0; // Declaring number of processes as 0 as to allow for a starting point.
 
         Scanner input = new Scanner(System.in);
 
-        // Asking the user for the number of processes. If it's less
-        while (numberOfProcesses < 2) {
+
+        // ask the user for the number of processes and loop until it matches the required input
+        while (true) {
             System.out.print("Enter the number of processes: ");
 
+            // checks if the users input is an integer
             if (input.hasNextInt()) {
-                numberOfProcesses = input.nextInt();
-                if (numberOfProcesses < 2) {
+                numberOfProcesses = input.nextInt();    // stores the users input into the variable used for number of processes
+                if (numberOfProcesses >= 2) {           // then it checks if it's greater than or equal to 2
+                    break;                              // breaks out of the for loop if it is
+                }
+                else {      // if it's an integer but not greater than or equal to 2, it prints a message and loops again
                     System.out.println("Number of processes must be >= 2\n");
                 }
             }
-            // Look into fixing the error if there's time. 
-            else {
-                throw new NumberFormatException("Invalid Input - Enter an Integer");
+            else {          // if it's NOT an integer, it prints a message and loops again
+                System.out.println("Invalid Input - Enter an Integer\n");
+                input.next();   // clears input variable allowing to try again
             }
 
         }
 
-        QueueImplementation<Process> queue = new QueueImplementation<>();
-        Process[] processes = new Process[numberOfProcesses];
+        QueueImplementation<Process> queue = new QueueImplementation<>();   // implements our Queue implementation file
+        Process[] processes = new Process[numberOfProcesses];               // create a Process array to store the processes
+
         
         // call process and queue classes
-        for (int i = 0; i < numberOfProcesses; i++) { // 
+        for (int i = 0; i < numberOfProcesses; i++) {
 
-            int processID = i+1;
+            int processID = i+1; // It needs to be i+1 because the index starts at 0, while the process starts at P1, hence i+1.
     
             // Inputting the numbers
             System.out.print("\nEnter arrival time for process P" + (i+1) + ": ");
@@ -46,37 +50,46 @@ public class FCFSAlgorithm {
             System.out.print("Enter burst time for process P" + (i+1) + ": ");
             int burstTime = input.nextInt();
 
-            // will replace with linked list or whatever, placeholder for now 
+            // Create new process and add to processes array
             processes[i] = new Process(
                 processID, arrivalTime, burstTime
             );
-
-            queue.enqueue(processes[i]);
             
         }
 
-        // System.out.println(queue.getFront()); // testing
+        /* Sorting the processses by using the compareTo() method within the Process class.
+        This will ensure that if the process numbers have out of order arrival times. */
+        Arrays.sort(processes); 
+        for (Process p : processes) {
+            queue.enqueue(p);
+        }
         
-        String results = "";
-        int totalWaitingTime = 0;
-        int totalTurnaround = 0;
+        String results = ""; // Initialization results string
+        int totalWaitingTime = 0; // Java requires variables to be declared, therefore it's necessary to declare the totalWaitingTime as 0 before anything else.
+        int totalTurnaround = 0; // Java requires variables to be declared, therefore it's necessary to declare the totalTurnaround as 0 before anything else.
 
-        for (int i = 0; i < numberOfProcesses; i++) {
-            Process currentProc = queue.dequeue();
-            int arrivalTime = currentProc.getArrivalTime();
+        // Loop through processes array to run through calculations.
+        for (int i = 0; i < numberOfProcesses; i++) { 
+            Process currentProc = queue.dequeue(); // Take the front queued object as our current process.
+            int arrivalTime = currentProc.getArrivalTime(); 
         	
-            if (currentTime < arrivalTime) {
+            // Set current time if arrival time is greater.
+            if (currentTime < arrivalTime) { 
             	currentTime = arrivalTime;
             }
             
-            // calculations
+            //  time calculations
             int completionTime = currentTime + currentProc.getBurstTime();
-            int turnaroundTime = completionTime - currentProc.getArrivalTime();
+            int turnaroundTime = completionTime - arrivalTime;
         	int waitingTime = currentTime - arrivalTime;
             
-            results = (results + "Process P" + (i+1) + " <<..>> Arrival Time " + arrivalTime + " <<..>> Waiting Time " + waitingTime + " <<...>> Turnaround Time " + turnaroundTime + "\n");
+            // concatenating results string of required times and variables
+            results = (results + "Process P" + currentProc.getProcessID() + " <<..>> Arrival Time " + arrivalTime + " <<..>> Waiting Time " + waitingTime + " <<...>> Turnaround Time " + turnaroundTime + "\n");
+            
+            // update current time of process queue
             currentTime += currentProc.getBurstTime();
             
+            // add waiting time and turnaround time to total time for average calculations
             totalWaitingTime += waitingTime;
             totalTurnaround += turnaroundTime;
         }
